@@ -14,12 +14,22 @@ export class NewCategoryComponent implements OnInit {
   private fb = inject(FormBuilder);
   private categoryService = inject(CategoryService);
   private dialogRef = inject(MatDialogRef);
+  public data = inject(MAT_DIALOG_DATA);
+  estadoFormulario: string = '';
 
   ngOnInit(): void {
+    console.log(this.data);
+    this.estadoFormulario = 'Agregar';
+
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
     });
+
+    if (this.data != null) {
+      this.updateForm(this.data);
+      this.estadoFormulario = 'Actualizar';
+    }
   }
 
   onSave() {
@@ -28,16 +38,36 @@ export class NewCategoryComponent implements OnInit {
       description: this.categoryForm.get('description')?.value,
     };
 
-    this.categoryService.saveCategorie(data).subscribe(
-      (data: any) => {
-        console.log(data);
-        this.dialogRef.close(1);
-      },
-      (error: any) => {
-        console.error(error);
-        this.dialogRef.close(2);
-      }
-    );
+    if (this.data != null) {
+      //update registry
+      this.categoryService.updateCategorie(data, this.data.id).subscribe(
+        (data: any) => {
+          this.dialogRef.close(1);
+        },
+        (error: any) => {
+          this.dialogRef.close(2);
+        }
+      );
+    } else {
+      //create new registry
+      this.categoryService.saveCategorie(data).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.dialogRef.close(1);
+        },
+        (error: any) => {
+          console.error(error);
+          this.dialogRef.close(2);
+        }
+      );
+    }
+  }
+
+  updateForm(data: any) {
+    this.categoryForm = this.fb.group({
+      name: [data.name, Validators.required],
+      description: [data.description, Validators.required],
+    });
   }
 
   onCancel() {

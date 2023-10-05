@@ -49,7 +49,6 @@ export class CategoryComponent implements OnInit {
   openCategoryDialog() {
     const dialogRef = this.dialog.open(NewCategoryComponent, {
       width: '450px',
-      // data: { name: this.name, animal: this.animal },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -60,6 +59,25 @@ export class CategoryComponent implements OnInit {
       } else if (result === 2) {
         this.openSnackBar(
           'Se produjo un error al guardar categoria agregada',
+          'Error'
+        );
+      }
+    });
+  }
+
+  edit(data: CategoryElement) {
+    const dialogRef = this.dialog.open(NewCategoryComponent, {
+      width: '450px',
+      data: { id: data.id, name: data.name, description: data.description },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result == 1) {
+        this.openSnackBar('Categoria Actualizada', 'Exitosa');
+        this.getCategories();
+      } else if (result == 2) {
+        this.openSnackBar(
+          'Se produjo un error al actualizar categoria',
           'Error'
         );
       }

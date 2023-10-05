@@ -16,8 +16,9 @@
         <div class="right bt-center">
             <ul>
                 <li>
-                    <button mat-raised-button color="primary"
-                        (click)="getCategories()"><mat-icon>refresh</mat-icon></button>
+                    <button mat-icon-button color="primary"
+                        (click)="getCategories()"><mat-icon>refresh</mat-icon>
+                    </button>
                 </li>
             </ul>
             <ul>
@@ -55,7 +56,7 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell *matCellDef="let element; let i=index">
-                    <button mat-icon-button color="accent">
+                    <button mat-icon-button color="accent" (click)="edit(element)">
                         <mat-icon aria-label="Edit">edit</mat-icon>
                     </button>
                     <button mat-icon-button color="accent">

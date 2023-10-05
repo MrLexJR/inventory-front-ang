@@ -5,7 +5,6 @@
 
         <div>
             <mat-form-field hintLabel="Busque categoría" appearance="fill">
-
                 <mat-label>Buscar Categoría</mat-label>
                 <input matInput #input>
             </mat-form-field>
@@ -14,10 +13,16 @@
 
     <mat-card-header>
 
-        <div class="right">
+        <div class="right bt-center">
             <ul>
                 <li>
-                    <button mat-raised-button color="primary">Agregar Categoría</button>
+                    <button mat-raised-button color="primary"
+                        (click)="getCategories()"><mat-icon>refresh</mat-icon></button>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <button mat-raised-button color="primary" (click)="openCategoryDialog()">Agregar Categoría</button>
                 </li>
             </ul>
         </div>

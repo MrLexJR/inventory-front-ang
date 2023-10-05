@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CategoryElement } from '../interfaces/category-element';
 
 @Injectable({
   providedIn: 'root',
@@ -18,5 +19,16 @@ export class CategoryService {
   getCategories(): Observable<any> {
     const endpoint = `${this.baseUrl}/categories`;
     return this.http.get(endpoint);
+  }
+
+  /**
+   * Create Categories
+   *
+   * @param body
+   * @returns
+   */
+  saveCategorie(body: CategoryElement): Observable<any> {
+    const endpoint = `${this.baseUrl}/categories`;
+    return this.http.post(endpoint, body);
   }
 }

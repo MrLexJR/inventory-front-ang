@@ -43,4 +43,15 @@ export class CategoryService {
     const endpoint = `${this.baseUrl}/categories/${id}`;
     return this.http.put(endpoint, body);
   }
+
+  /**
+   * Delete Categories
+   * 
+   * @param id identificador 
+   * @returns observable
+   */
+  deleteCategories(id: any){
+    const endpoint = `${this.baseUrl}/categories/${id}`;
+    return this.http.delete(endpoint);
+  }
 }

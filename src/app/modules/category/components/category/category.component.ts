@@ -9,6 +9,7 @@ import {
 import { CategoryElement } from 'src/app/modules/shared/interfaces/category-element';
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
 import { NewCategoryComponent } from '../new-category/new-category.component';
+import { ConfirmComponent } from 'src/app/modules/shared/components/confirm/confirm.component';
 
 @Component({
   selector: 'app-category',
@@ -30,8 +31,7 @@ export class CategoryComponent implements OnInit {
   getCategories(): void {
     this.categoryService.getCategories().subscribe({
       next: (response) => this.processCategoriesResponse(response),
-      error: (e) => console.error(e),
-      complete: () => console.info('complete service'),
+      error: (e) => console.error(e)
     });
   }
 
@@ -80,6 +80,21 @@ export class CategoryComponent implements OnInit {
           'Se produjo un error al actualizar categoria',
           'Error'
         );
+      }
+    });
+  }
+
+  delete(id: any) {
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data: { id: id },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result == 1) {
+        this.openSnackBar('Categoria Eliminada', 'Exitosa');
+        this.getCategories();
+      } else if (result == 2) {
+        this.openSnackBar('Se produjo un error al eliminar categoria', 'Error');
       }
     });
   }

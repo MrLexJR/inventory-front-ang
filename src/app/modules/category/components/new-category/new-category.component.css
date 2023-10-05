@@ -13,7 +13,7 @@
     flex-direction: column;
 }
 
-.category-container>* {
+.category-container > * {
     width: 100%;
 }
 

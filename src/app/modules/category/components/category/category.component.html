@@ -6,7 +6,7 @@
         <div>
             <mat-form-field hintLabel="Busque categoría" appearance="fill">
                 <mat-label>Buscar Categoría</mat-label>
-                <input matInput #input>
+                <input matInput #input (keyup)="buscar(input.value)">
             </mat-form-field>
         </div>
     </mat-card-header>
@@ -16,8 +16,7 @@
         <div class="right bt-center">
             <ul>
                 <li>
-                    <button mat-icon-button color="primary"
-                        (click)="getCategories()"><mat-icon>refresh</mat-icon>
+                    <button mat-icon-button color="primary" (click)="getCategories()"><mat-icon>refresh</mat-icon>
                     </button>
                 </li>
             </ul>
@@ -67,6 +66,11 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell message-empty" [attr.colspan]="displayedColumns.length">
+                    No se encontraron datos.
+                </td>
+            </tr>
 
         </table>
         <mat-paginator [pageSizeOptions]="[5,10, 20]" showFirstLastButtons>

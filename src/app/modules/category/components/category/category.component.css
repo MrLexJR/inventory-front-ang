@@ -23,7 +23,13 @@ mat-form-field {
 .mat-header-cell:nth-child(1) {
     flex: 0 0 6%;
 }
+
 .bt-center {
     align-items: center;
     display: flex;
+}
+
+.message-empty {
+    text-align: center;
+    vertical-align: middle;
 }

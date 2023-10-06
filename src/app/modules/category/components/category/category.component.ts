@@ -1,15 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import {
   MatSnackBar,
   MatSnackBarRef,
   SimpleSnackBar,
 } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmComponent } from 'src/app/modules/shared/components/confirm/confirm.component';
 import { CategoryElement } from 'src/app/modules/shared/interfaces/category-element';
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
 import { NewCategoryComponent } from '../new-category/new-category.component';
-import { ConfirmComponent } from 'src/app/modules/shared/components/confirm/confirm.component';
 
 @Component({
   selector: 'app-category',
@@ -24,6 +25,9 @@ export class CategoryComponent implements OnInit {
   dataSource = new MatTableDataSource<CategoryElement>();
   displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
 
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
   ngOnInit(): void {
     this.getCategories();
   }
@@ -31,7 +35,7 @@ export class CategoryComponent implements OnInit {
   getCategories(): void {
     this.categoryService.getCategories().subscribe({
       next: (response) => this.processCategoriesResponse(response),
-      error: (e) => console.error(e)
+      error: (e) => console.error(e),
     });
   }
 
@@ -43,6 +47,9 @@ export class CategoryComponent implements OnInit {
         dataCategory.push(element);
       });
       this.dataSource = new MatTableDataSource<CategoryElement>(dataCategory);
+      this.dataSource.paginator = this.paginator;
+    } else {
+      this.dataSource.data = [];
     }
   }
 
@@ -97,6 +104,29 @@ export class CategoryComponent implements OnInit {
         this.openSnackBar('Se produjo un error al eliminar categoria', 'Error');
       }
     });
+  }
+
+  buscar(termino: string) {
+    if (termino.trim().length === 0) {
+      return this.getCategories();
+    }
+
+    // Verificar si el término es un número
+    const isNumber = !isNaN(Number(termino));
+
+    if (isNumber) {
+      // Realizar la búsqueda por ID
+      this.categoryService.getCategorieById(termino).subscribe((resp: any) => {
+        this.processCategoriesResponse(resp);
+      });
+    } else {
+      // Realizar la búsqueda por nombre o descripción
+      this.categoryService
+        .searchCategories(termino.trim())
+        .subscribe((resp: any) => {
+          this.processCategoriesResponse(resp);
+        });
+    }
   }
 
   openSnackBar(

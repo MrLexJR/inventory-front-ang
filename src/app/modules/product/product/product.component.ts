@@ -4,7 +4,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ProductService } from '../../shared/services/product.service';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarRef,
+  SimpleSnackBar,
+} from '@angular/material/snack-bar';
 import { NewProductComponent } from '../new-product/new-product.component';
 import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
 
@@ -58,6 +62,8 @@ export class ProductComponent implements OnInit {
       //set the datasource
       this.dataSource = new MatTableDataSource<ProductElement>(dateProduct);
       this.dataSource.paginator = this.paginator;
+    } else {
+      this.dataSource.data = [];
     }
   }
 
@@ -107,6 +113,17 @@ export class ProductComponent implements OnInit {
       } else if (result == 2) {
         this.openSnackBar('Se produjo un error al eliminar producto', 'Error');
       }
+    });
+  }
+
+  buscar(name: any) {
+    if (name.length === 0) {
+      return this.getProducts();
+    }
+
+    this.productService.getProductByName(name).subscribe({
+      next: (resp: any) => this.processProductResponse(resp),
+      error: (e) => (this.dataSource.data = []),
     });
   }
 

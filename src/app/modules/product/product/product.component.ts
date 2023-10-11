@@ -75,6 +75,24 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  edit(product: ProductElement) {
+    const dialogRef = this.dialog.open(NewProductComponent, {
+      width: '450px',
+      data: {
+        product
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result == 1) {
+        this.openSnackBar('Producto editado', 'Exitosa');
+        this.getProducts();
+      } else if (result == 2) {
+        this.openSnackBar('Se produjo un error al editar producto', 'Error');
+      }
+    });
+  }
+
   openSnackBar(
     message: string,
     action: string

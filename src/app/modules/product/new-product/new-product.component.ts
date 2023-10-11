@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CategoryService } from '../../shared/services/category.service';
 import { CategoryElement } from '../../shared/interfaces/category-element';
+import { ProductElement } from '../../shared/interfaces/product-element';
 
 @Component({
   selector: 'app-new-product',
@@ -26,7 +27,6 @@ export class NewProductComponent implements OnInit {
   nameImg: string = '';
 
   ngOnInit(): void {
-    console.log(this.data);
     this.estadoFormulario = 'Agregar';
 
     this.productForm = this.fb.group({
@@ -38,7 +38,8 @@ export class NewProductComponent implements OnInit {
     });
 
     if (this.data != null) {
-      // this.updateForm(this.data);
+      console.log(this.data.product);
+      this.updateForm(this.data.product);
       this.estadoFormulario = 'Actualizar';
     }
 
@@ -63,7 +64,7 @@ export class NewProductComponent implements OnInit {
     if (this.data != null) {
       //update the product
       this.productService
-        .updateProduct(uploadImageData, this.data.id)
+        .updateProduct(uploadImageData, this.data.product.id)
         .subscribe(
           (data: any) => {
             this.dialogRef.close(1);
@@ -83,6 +84,16 @@ export class NewProductComponent implements OnInit {
         }
       );
     }
+  }
+
+  updateForm(data: ProductElement) {
+    this.productForm = this.fb.group({
+      name: [data.name, Validators.required],
+      price: [data.price, Validators.required],
+      account: [data.account, Validators.required],
+      category: [data.category.id, Validators.required],
+      picture: ['', Validators.required],
+    });
   }
 
   onCancel() {

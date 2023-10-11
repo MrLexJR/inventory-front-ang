@@ -1,0 +1,35 @@
+.product-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.product-full-width {
+    width: 100%;
+}
+
+.product-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-container>* {
+    width: 100%;
+}
+
+.actions-right {
+    justify-content: flex-end;
+}
+
+.input-file {
+    display: none;
+}
+
+.subir {
+    padding: 5px 16px;
+    background: #3f51b5;
+    color: #fff;
+    border: 0px solid #fff;
+    cursor: pointer;
+    margin: 0px 10px;
+}

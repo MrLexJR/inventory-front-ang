@@ -1,0 +1,19 @@
+.alinear {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.chartContainer canvas {
+    max-height: 250px;
+    width: auto;
+    margin-inline: 5%;
+}
+
+.chartContainer {
+    height: 90%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

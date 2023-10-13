@@ -7,6 +7,7 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { NgChartsModule } from 'ng2-charts';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -35,6 +36,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     DashboardModule,
     BrowserAnimationsModule,
     KeycloakAngularModule,
+    NgChartsModule,
   ],
   providers: [
     {

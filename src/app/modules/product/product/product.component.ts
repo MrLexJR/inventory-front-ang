@@ -53,6 +53,24 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  getExcel() {
+    this.productService.getExcelProducts().subscribe({
+      next: (response) => {
+        let file = new Blob([response], {
+          type: 'application/vnd.openxmlformats—officedocument.spreadsheetml.sheet',
+        });
+        let fileUrl = URL.createObjectURL(file);
+        var anchor = document.createElement('a');
+        var date = new Date();
+        anchor.download = `products_${date.toLocaleString()}.xlsx`;
+        anchor.href = fileUrl;
+        anchor.click();
+        this.openSnackBar('Archivo Descargado', 'Hecho');
+      },
+      error: (e) => console.error(e),
+    });
+  }
+
   processProductResponse(resp: any) {
     console.log(resp);
     const dateProduct: ProductElement[] = [];

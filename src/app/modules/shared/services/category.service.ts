@@ -68,12 +68,24 @@ export class CategoryService {
 
   /**
    * Hace la busqueda de terminos
-   * 
+   *
    * @param query string para buscar por  descripcion o name
    * @returns Observable
    */
   searchCategories(query: string) {
     const endpoint = `${this.baseUrl}/categories/search?query=${query}`;
     return this.http.get(endpoint);
+  }
+
+  /**
+   * get excel categories
+   *
+   * @returns all categories
+   */
+  getExcelCategories(): Observable<any> {
+    const endpoint = `${this.baseUrl}/categories/export/excel`;
+    return this.http.get(endpoint, {
+      responseType: 'blob'
+    });
   }
 }

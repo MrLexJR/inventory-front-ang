@@ -45,6 +45,24 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  getExcel() {
+    this.categoryService.getExcelCategories().subscribe({
+      next: (response) => {
+        let file = new Blob([response], {
+          type: 'application/vnd.openxmlformats—officedocument.spreadsheetml.sheet',
+        });
+        let fileUrl = URL.createObjectURL(file);
+        var anchor = document.createElement('a');
+        var date = new Date();
+        anchor.download = `categories_${date.toLocaleString()}.xlsx`;
+        anchor.href = fileUrl;
+        anchor.click();
+        this.openSnackBar('Archivo Descargado', 'Hecho');
+      },
+      error: (e) => console.error(e),
+    });
+  }
+
   processCategoriesResponse(res: any) {
     const dataCategory: CategoryElement[] = [];
     if (res.metadata[0].code === '200') {

@@ -59,4 +59,16 @@ export class ProductService {
       responseType: 'blob',
     });
   }
+
+  /**
+   * get excel products
+   *
+   * @returns file 
+   */
+  getExcelProducts(): Observable<any> {
+    const endpoint = `${this.baseUrl}/products/export/excel`;
+    return this.http.get(endpoint, {
+      responseType: 'blob',
+    });
+  }
 }

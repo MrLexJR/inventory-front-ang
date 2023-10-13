@@ -11,6 +11,7 @@ import {
 } from '@angular/material/snack-bar';
 import { NewProductComponent } from '../new-product/new-product.component';
 import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
+import { UtilService } from '../../shared/services/util.service';
 
 @Component({
   selector: 'app-product',
@@ -21,6 +22,9 @@ export class ProductComponent implements OnInit {
   private productService = inject(ProductService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
+  private utilService = inject(UtilService);
+
+  isAdmin!: boolean;
 
   dataSource = new MatTableDataSource<ProductElement>();
   displayedColumns: string[] = [
@@ -38,6 +42,8 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProducts();
+    console.log(this.utilService.getRoles());
+    this.isAdmin = this.utilService.isAdmin();
   }
 
   getProducts() {

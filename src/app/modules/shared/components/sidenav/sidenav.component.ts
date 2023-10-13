@@ -12,8 +12,6 @@ export class SidenavComponent {
   private keycloakService: KeycloakService = inject(KeycloakService);
 
   username: string;
-  email: string;
-
 
   menuNav = [
     { name: 'Home', route: 'home', icon: 'home' },
@@ -24,7 +22,6 @@ export class SidenavComponent {
   constructor(media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this.username = this.keycloakService.getUsername();
-    this.email = this.keycloakService.getUsername();
   }
 
   logout(){

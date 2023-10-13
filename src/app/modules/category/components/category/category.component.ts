@@ -11,6 +11,7 @@ import { ConfirmComponent } from 'src/app/modules/shared/components/confirm/conf
 import { CategoryElement } from 'src/app/modules/shared/interfaces/category-element';
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
 import { NewCategoryComponent } from '../new-category/new-category.component';
+import { UtilService } from 'src/app/modules/shared/services/util.service';
 
 @Component({
   selector: 'app-category',
@@ -21,15 +22,20 @@ export class CategoryComponent implements OnInit {
   private categoryService = inject(CategoryService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
+  private utilService = inject(UtilService);
 
   dataSource = new MatTableDataSource<CategoryElement>();
   displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
+
+  isAdmin!: boolean;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
   ngOnInit(): void {
     this.getCategories();
+    console.log(this.utilService.getRoles());
+    this.isAdmin = this.utilService.isAdmin();
   }
 
   getCategories(): void {
